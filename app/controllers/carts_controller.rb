@@ -1,4 +1,8 @@
 class CartsController < ApplicationController
+ 
+  #為何這裡不用 include CurrentCart
+  #為何這支controller 都不會跑 set_cart
+
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
 
@@ -58,7 +62,7 @@ class CartsController < ApplicationController
     @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
     respond_to do |format|
-      format.html { redirect_to store_url, notice: 'Your cart is currently empty' }
+      format.html { redirect_to store_url }
       format.json { head :no_content }
     end
   end
